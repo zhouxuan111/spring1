@@ -28,6 +28,9 @@ import org.springframework.lang.Nullable;
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @see DefaultAopProxyFactory
+ * Spring AOP动态代理的基接口 负责定义AOP的基础行为
+ *
+ * 获取代理对象
  */
 public interface AopProxy {
 

@@ -40,8 +40,12 @@ import org.springframework.lang.Nullable;
  * @see PlatformTransactionManager#getTransaction(TransactionDefinition)
  * @see org.springframework.transaction.support.DefaultTransactionDefinition
  * @see org.springframework.transaction.interceptor.TransactionAttribute
+ *
+ * 事务属性
  */
 public interface TransactionDefinition {
+
+	/*---事务传播机制---*/
 
 	/**
 	 * Support a current transaction; create a new one if none exists.
@@ -132,6 +136,7 @@ public interface TransactionDefinition {
 	int PROPAGATION_NESTED = 6;
 
 
+	/*--事务隔离级别--*/
 	/**
 	 * Use the default isolation level of the underlying datastore.
 	 * All other levels correspond to the JDBC isolation levels.

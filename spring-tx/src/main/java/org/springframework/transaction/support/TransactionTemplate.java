@@ -60,6 +60,7 @@ import org.springframework.util.Assert;
  * @see #execute
  * @see #setTransactionManager
  * @see org.springframework.transaction.PlatformTransactionManager
+ * 事务模板
  */
 @SuppressWarnings("serial")
 public class TransactionTemplate extends DefaultTransactionDefinition
@@ -68,6 +69,9 @@ public class TransactionTemplate extends DefaultTransactionDefinition
 	/** Logger available to subclasses. */
 	protected final Log logger = LogFactory.getLog(getClass());
 
+	/**
+	 * 事务管理器
+	 */
 	@Nullable
 	private PlatformTransactionManager transactionManager;
 
@@ -134,21 +138,25 @@ public class TransactionTemplate extends DefaultTransactionDefinition
 			return ((CallbackPreferringPlatformTransactionManager) this.transactionManager).execute(this, action);
 		}
 		else {
+			// 事务开启
 			TransactionStatus status = this.transactionManager.getTransaction(this);
 			T result;
 			try {
 				result = action.doInTransaction(status);
 			}
 			catch (RuntimeException | Error ex) {
+				// 事务回滚
 				// Transactional code threw application exception -> rollback
 				rollbackOnException(status, ex);
 				throw ex;
 			}
 			catch (Throwable ex) {
 				// Transactional code threw unexpected exception -> rollback
+				// 事务回滚
 				rollbackOnException(status, ex);
 				throw new UndeclaredThrowableException(ex, "TransactionCallback threw undeclared checked exception");
 			}
+			// 事务提交
 			this.transactionManager.commit(status);
 			return result;
 		}

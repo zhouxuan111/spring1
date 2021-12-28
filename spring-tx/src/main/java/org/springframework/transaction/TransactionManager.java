@@ -24,6 +24,7 @@ package org.springframework.transaction;
  * @since 5.2
  * @see PlatformTransactionManager
  * @see ReactiveTransactionManager
+ * 事务管理器顶级接口
  */
 public interface TransactionManager {
 

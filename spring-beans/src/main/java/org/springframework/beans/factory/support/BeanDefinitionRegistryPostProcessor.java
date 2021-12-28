@@ -27,7 +27,7 @@ import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
  * which in turn define BeanFactoryPostProcessor instances.
  *
  * @author Juergen Hoeller
- * @since 3.0.1
+ * @since 3.0.1O
  * @see org.springframework.context.annotation.ConfigurationClassPostProcessor
  */
 public interface BeanDefinitionRegistryPostProcessor extends BeanFactoryPostProcessor {

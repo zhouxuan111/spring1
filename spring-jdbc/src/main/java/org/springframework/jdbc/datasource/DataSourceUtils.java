@@ -33,6 +33,8 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 import org.springframework.util.Assert;
 
 /**
+ *
+ * 提供静态方法获取数据库连接
  * Helper class that provides static methods for obtaining JDBC Connections from
  * a {@link javax.sql.DataSource}. Includes special support for Spring-managed
  * transactional Connections, e.g. managed by {@link DataSourceTransactionManager}
@@ -97,10 +99,13 @@ public abstract class DataSourceUtils {
 	 * @return a JDBC Connection from the given DataSource
 	 * @throws SQLException if thrown by JDBC methods
 	 * @see #doReleaseConnection
+	 * 直接通过TransactionSynchronizationManager获取数据库连接
 	 */
 	public static Connection doGetConnection(DataSource dataSource) throws SQLException {
 		Assert.notNull(dataSource, "No DataSource specified");
 
+
+		// 直接通过TransactionSynchronizationManager获取数据库连接
 		ConnectionHolder conHolder = (ConnectionHolder) TransactionSynchronizationManager.getResource(dataSource);
 		if (conHolder != null && (conHolder.hasConnection() || conHolder.isSynchronizedWithTransaction())) {
 			conHolder.requested();

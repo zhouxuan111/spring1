@@ -327,6 +327,7 @@ public class JdbcTemplate extends JdbcAccessor implements JdbcOperations {
 	public <T> T execute(ConnectionCallback<T> action) throws DataAccessException {
 		Assert.notNull(action, "Callback object must not be null");
 
+		// 如果开启事务，那么就会判断是否从TransactionSynchronizedManager 的 resources中获取
 		Connection con = DataSourceUtils.getConnection(obtainDataSource());
 		try {
 			// Create close-suppressing Connection proxy, also preparing returned Statements.

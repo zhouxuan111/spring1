@@ -36,10 +36,13 @@ import org.springframework.util.Assert;
  * @author Juergen Hoeller
  * @see #setTransactionInterceptor
  * @see TransactionProxyFactoryBean
+ *
+ * AOP通知器 完成对事务处理属性的处理。
  */
 @SuppressWarnings("serial")
 public class TransactionAttributeSourceAdvisor extends AbstractPointcutAdvisor {
 
+	//事务拦截器
 	@Nullable
 	private TransactionInterceptor transactionInterceptor;
 

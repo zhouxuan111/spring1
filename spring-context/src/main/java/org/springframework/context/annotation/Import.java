@@ -45,6 +45,7 @@ import java.lang.annotation.Target;
  * @author Chris Beams
  * @author Juergen Hoeller
  * @since 3.0
+ * // 可以配合以下注解使用
  * @see Configuration
  * @see ImportSelector
  * @see ImportBeanDefinitionRegistrar

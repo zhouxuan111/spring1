@@ -47,6 +47,8 @@ import org.springframework.util.Assert;
  * @see #rollbackToSavepoint
  * @see #releaseSavepoint
  * @see SimpleTransactionStatus
+ *
+ * 默认的事务状态信息
  */
 public class DefaultTransactionStatus extends AbstractTransactionStatus {
 
@@ -61,6 +63,9 @@ public class DefaultTransactionStatus extends AbstractTransactionStatus {
 
 	private final boolean debug;
 
+	/**
+	 * 可以理解为链表结构的next属性
+	 */
 	@Nullable
 	private final Object suspendedResources;
 
@@ -110,7 +115,7 @@ public class DefaultTransactionStatus extends AbstractTransactionStatus {
 	}
 
 	@Override
-	public boolean isNewTransaction() {
+	public boolean  isNewTransaction() {
 		return (hasTransaction() && this.newTransaction);
 	}
 

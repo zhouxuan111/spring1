@@ -32,12 +32,14 @@ import org.springframework.transaction.TransactionDefinition;
  * @since 16.03.2003
  * @see DefaultTransactionAttribute
  * @see RuleBasedTransactionAttribute
+ *
+ * 事务属性的抽象 @Transactional注解的属性解析
  */
 public interface TransactionAttribute extends TransactionDefinition {
 
 	/**
 	 * Return a qualifier value associated with this transaction attribute.
-	 * <p>This may be used for choosing a corresponding transaction manager
+	 * <p>This may be used for a corresponding transaction manager
 	 * to process this specific transaction.
 	 * @since 3.0
 	 */

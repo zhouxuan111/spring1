@@ -50,6 +50,8 @@ import org.springframework.transaction.TransactionManager;
  * @see TransactionProxyFactoryBean
  * @see org.springframework.aop.framework.ProxyFactoryBean
  * @see org.springframework.aop.framework.ProxyFactory
+ *
+ * Spring事务拦截器的核心业务处理。AOP调用链最终触发invoke()方法
  */
 @SuppressWarnings("serial")
 public class TransactionInterceptor extends TransactionAspectSupport implements MethodInterceptor, Serializable {
@@ -106,7 +108,12 @@ public class TransactionInterceptor extends TransactionAspectSupport implements 
 		setTransactionAttributes(attributes);
 	}
 
-
+	/**
+	 * 事务增强的方法 内部调用invokeWithinTransaction()
+	 * @param invocation the method invocation joinpoint
+	 * @return
+	 * @throws Throwable
+	 */
 	@Override
 	@Nullable
 	public Object invoke(MethodInvocation invocation) throws Throwable {
@@ -120,6 +127,7 @@ public class TransactionInterceptor extends TransactionAspectSupport implements 
 			@Override
 			@Nullable
 			public Object proceedWithInvocation() throws Throwable {
+				// 执行目标方法
 				return invocation.proceed();
 			}
 			@Override

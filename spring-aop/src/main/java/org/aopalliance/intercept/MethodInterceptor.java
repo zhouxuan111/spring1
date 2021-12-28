@@ -41,6 +41,7 @@ import javax.annotation.Nullable;
  * </pre>
  *
  * @author Rod Johnson
+ * AOP调用链中拦截器的内部核心接口，所有类型的切面最终都会保证为此接口触发同一拦截
  */
 @FunctionalInterface
 public interface MethodInterceptor extends Interceptor {

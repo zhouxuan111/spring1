@@ -21,6 +21,8 @@ import java.io.Flushable;
 import org.springframework.core.Ordered;
 
 /**
+ *
+ * 对事务同步的扩展点，用于事务同步回调的接口
  * Interface for transaction synchronization callbacks.
  * Supported by AbstractPlatformTransactionManager.
  *

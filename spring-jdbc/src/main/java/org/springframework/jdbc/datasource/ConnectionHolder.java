@@ -50,9 +50,15 @@ public class ConnectionHolder extends ResourceHolderSupport {
 	@Nullable
 	private ConnectionHandle connectionHandle;
 
+	/**
+	 * 数据库连接
+	 */
 	@Nullable
 	private Connection currentConnection;
 
+	/**
+	 * 事务是否活跃
+	 */
 	private boolean transactionActive = false;
 
 	@Nullable

@@ -73,6 +73,7 @@ public abstract class AopConfigUtils {
 	public static BeanDefinition registerAutoProxyCreatorIfNecessary(
 			BeanDefinitionRegistry registry, @Nullable Object source) {
 
+		// 注入InfrastructureAdvisorAutoProxyCreator,该类负责扫描事务类，创建事务类代理对象，注入到IOC容器中
 		return registerOrEscalateApcAsRequired(InfrastructureAdvisorAutoProxyCreator.class, registry, source);
 	}
 

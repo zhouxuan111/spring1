@@ -31,6 +31,8 @@ import org.springframework.core.type.AnnotationMetadata;
  * as appropriate based on an {@code @Enable*} annotation having {@code mode} and
  * {@code proxyTargetClass} attributes set to the correct values.
  *
+ * 负责依赖注入事务相关属性配置和注入事务入口类InfrastructAdvisorAutoProxyCreator
+ *
  * @author Chris Beams
  * @since 3.1
  * @see org.springframework.cache.annotation.EnableCaching
@@ -69,6 +71,7 @@ public class AutoProxyRegistrar implements ImportBeanDefinitionRegistrar {
 			if (mode != null && proxyTargetClass != null && AdviceMode.class == mode.getClass() &&
 					Boolean.class == proxyTargetClass.getClass()) {
 				candidateFound = true;
+				//JDK代理模式，往容器中注入组件
 				if (mode == AdviceMode.PROXY) {
 					AopConfigUtils.registerAutoProxyCreatorIfNecessary(registry);
 					if ((Boolean) proxyTargetClass) {

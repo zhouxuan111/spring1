@@ -30,6 +30,11 @@ import org.springframework.lang.Nullable;
  * @see #setAdviceBeanName
  * @see TransactionInterceptor
  * @see TransactionAttributeSourceAdvisor
+ *
+ * 使用Transactional注解，怎么能够自动加入事务的处理呢？
+ *
+ * 事务切面
+ * 	Advisor = Advice(执行逻辑):TransactionInterceptor(连接器) + Pointcut(在哪里执行):TransactionAttributeSourcePointcut：matches() 判断是否需要创建代理对象
  */
 @SuppressWarnings("serial")
 public class BeanFactoryTransactionAttributeSourceAdvisor extends AbstractBeanFactoryPointcutAdvisor {
@@ -37,6 +42,9 @@ public class BeanFactoryTransactionAttributeSourceAdvisor extends AbstractBeanFa
 	@Nullable
 	private TransactionAttributeSource transactionAttributeSource;
 
+	/**
+	 * Pointcut：直接判断注解上是否使用@Transactional
+	 */
 	private final TransactionAttributeSourcePointcut pointcut = new TransactionAttributeSourcePointcut() {
 		@Override
 		@Nullable
@@ -51,6 +59,7 @@ public class BeanFactoryTransactionAttributeSourceAdvisor extends AbstractBeanFa
 	 * attributes. This should usually be identical to the source reference
 	 * set on the transaction interceptor itself.
 	 * @see TransactionInterceptor#setTransactionAttributeSource
+	 *
 	 */
 	public void setTransactionAttributeSource(TransactionAttributeSource transactionAttributeSource) {
 		this.transactionAttributeSource = transactionAttributeSource;

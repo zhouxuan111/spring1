@@ -73,26 +73,55 @@ import org.springframework.util.Assert;
  * @see org.springframework.transaction.jta.JtaTransactionManager
  * @see org.springframework.jdbc.datasource.DataSourceTransactionManager
  * @see org.springframework.jdbc.datasource.DataSourceUtils#getConnection
+ *
+ * 同步事务管理器
+ * 在一个事务中，需要保证使用相同的数据库连接Connection. 在Spring中，TransactionSynchronizationManager 使用ThreadLocal将线程与connection进行绑定
+ *
+ * 在DataSourceTransactionManager.doBegin()方法中保存
  */
 public abstract class TransactionSynchronizationManager {
 
 	private static final Log logger = LogFactory.getLog(TransactionSynchronizationManager.class);
 
+	/**
+	 * 事务基本信息都使用ThreadLocal进行线程隔离
+	 */
+
+	/**
+	 * key = dataSource , value = connection
+	 * 支持多数据源
+	 * 保存线程与Connection的关系
+	 */
 	private static final ThreadLocal<Map<Object, Object>> resources =
 			new NamedThreadLocal<>("Transactional resources");
 
+	/**
+	 * 事务同步器
+	 */
 	private static final ThreadLocal<Set<TransactionSynchronization>> synchronizations =
 			new NamedThreadLocal<>("Transaction synchronizations");
 
+	/**
+	 * 当前线程对应的事务名称
+	 */
 	private static final ThreadLocal<String> currentTransactionName =
 			new NamedThreadLocal<>("Current transaction name");
 
+	/**
+	 * 事务是否只读
+	 */
 	private static final ThreadLocal<Boolean> currentTransactionReadOnly =
 			new NamedThreadLocal<>("Current transaction read-only status");
 
+	/**
+	 * 事务隔离界别
+	 */
 	private static final ThreadLocal<Integer> currentTransactionIsolationLevel =
 			new NamedThreadLocal<>("Current transaction isolation level");
 
+	/**
+	 * 事务是否开启
+	 */
 	private static final ThreadLocal<Boolean> actualTransactionActive =
 			new NamedThreadLocal<>("Actual transaction active");
 
@@ -175,14 +204,17 @@ public abstract class TransactionSynchronizationManager {
 	 * @see ResourceTransactionManager#getResourceFactory()
 	 */
 	public static void bindResource(Object key, Object value) throws IllegalStateException {
+		// 获取真实数据源名称
 		Object actualKey = TransactionSynchronizationUtils.unwrapResourceIfNecessary(key);
 		Assert.notNull(value, "Value must not be null");
+		// 获取当前线程 Map<DataSource,Connection>
 		Map<Object, Object> map = resources.get();
 		// set ThreadLocal Map if none found
 		if (map == null) {
 			map = new HashMap<>();
 			resources.set(map);
 		}
+		// 存放DataSource 与 Connection
 		Object oldValue = map.put(actualKey, value);
 		// Transparently suppress a ResourceHolder that was marked as void...
 		if (oldValue instanceof ResourceHolder && ((ResourceHolder) oldValue).isVoid()) {

@@ -57,6 +57,7 @@ import org.springframework.core.type.AnnotationMetadata;
  * @see Import
  * @see ImportSelector
  * @see Configuration
+ * // 往容器中注入组件的工具 将Bean注入到IOC容器
  */
 public interface ImportBeanDefinitionRegistrar {
 
@@ -79,6 +80,8 @@ public interface ImportBeanDefinitionRegistrar {
 	 * @since 5.2
 	 * @see ConfigurationClassPostProcessor#IMPORT_BEAN_NAME_GENERATOR
 	 * @see ConfigurationClassPostProcessor#setBeanNameGenerator
+	 * importingClassMetadata:类的元数据信息
+	 * BeanDefinitionRegistry：将BeanDefinition注入都容器中
 	 */
 	default void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry,
 			BeanNameGenerator importBeanNameGenerator) {

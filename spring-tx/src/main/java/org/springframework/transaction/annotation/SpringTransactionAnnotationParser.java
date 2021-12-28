@@ -39,10 +39,17 @@ import org.springframework.util.StringUtils;
  * @author Juergen Hoeller
  * @author Mark Paluch
  * @since 2.5
+ *
+ * Spring事务注解解析器  解析@Transactional注解
  */
 @SuppressWarnings("serial")
 public class SpringTransactionAnnotationParser implements TransactionAnnotationParser, Serializable {
 
+	/**
+	 * 判断是否使用@Transactional注解
+	 * @param targetClass the class to introspect
+	 * @return
+	 */
 	@Override
 	public boolean isCandidateClass(Class<?> targetClass) {
 		return AnnotationUtils.isCandidateClass(targetClass, Transactional.class);

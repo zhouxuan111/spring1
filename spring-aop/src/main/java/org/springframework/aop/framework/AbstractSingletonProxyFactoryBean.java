@@ -151,6 +151,7 @@ public abstract class AbstractSingletonProxyFactoryBean extends ProxyConfig
 
 		ProxyFactory proxyFactory = new ProxyFactory();
 
+		// 为代理对象配置通知器
 		if (this.preInterceptors != null) {
 			for (Object interceptor : this.preInterceptors) {
 				proxyFactory.addAdvisor(this.advisorAdapterRegistry.wrap(interceptor));
@@ -158,6 +159,7 @@ public abstract class AbstractSingletonProxyFactoryBean extends ProxyConfig
 		}
 
 		// Add the main interceptor (typically an Advisor).
+		// 将拦截器添加到代理对象中
 		proxyFactory.addAdvisor(this.advisorAdapterRegistry.wrap(createMainInterceptor()));
 
 		if (this.postInterceptors != null) {
@@ -176,6 +178,7 @@ public abstract class AbstractSingletonProxyFactoryBean extends ProxyConfig
 		}
 		else if (!isProxyTargetClass()) {
 			// Rely on AOP infrastructure to tell us what interfaces to proxy.
+			// 确定使用哪个接口作为代理
 			Class<?> targetClass = targetSource.getTargetClass();
 			if (targetClass != null) {
 				proxyFactory.setInterfaces(ClassUtils.getAllInterfacesForClass(targetClass, this.proxyClassLoader));
@@ -184,6 +187,7 @@ public abstract class AbstractSingletonProxyFactoryBean extends ProxyConfig
 
 		postProcessProxyFactory(proxyFactory);
 
+		// 生成代理对象
 		this.proxy = proxyFactory.getProxy(this.proxyClassLoader);
 	}
 

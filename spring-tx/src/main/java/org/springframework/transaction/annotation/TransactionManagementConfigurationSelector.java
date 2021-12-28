@@ -42,10 +42,12 @@ public class TransactionManagementConfigurationSelector extends AdviceModeImport
 	 * {@code AspectJ(Jta)TransactionManagementConfiguration} for {@code PROXY}
 	 * and {@code ASPECTJ} values of {@link EnableTransactionManagement#mode()},
 	 * respectively.
+	 * 返回要注入到IOC容器的类型给@Import注解，Spring根据@Import将类注入到IOC容器中
 	 */
 	@Override
 	protected String[] selectImports(AdviceMode adviceMode) {
 		switch (adviceMode) {
+			// JDK代理，注入两个对象，AutoProxyRegistrar ProxyTransactionManagementConfiguration
 			case PROXY:
 				return new String[] {AutoProxyRegistrar.class.getName(),
 						ProxyTransactionManagementConfiguration.class.getName()};

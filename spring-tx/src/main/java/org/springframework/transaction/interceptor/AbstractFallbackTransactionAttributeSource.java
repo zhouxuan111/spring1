@@ -78,6 +78,7 @@ public abstract class AbstractFallbackTransactionAttributeSource
 	private transient StringValueResolver embeddedValueResolver;
 
 	/**
+	 * 缓存事务属性，key = 事务类的全路径名称 ,value = TransactionAttribute
 	 * Cache of TransactionAttributes, keyed by method on a specific target class.
 	 * <p>As this base class is not marked Serializable, the cache will be recreated
 	 * after serialization - provided that the concrete subclass is Serializable.
@@ -121,6 +122,7 @@ public abstract class AbstractFallbackTransactionAttributeSource
 		}
 		else {
 			// We need to work it out.
+			// 提取事务标签
 			TransactionAttribute txAttr = computeTransactionAttribute(method, targetClass);
 			// Put it in the cache.
 			if (txAttr == null) {
@@ -173,16 +175,19 @@ public abstract class AbstractFallbackTransactionAttributeSource
 		Method specificMethod = AopUtils.getMostSpecificMethod(method, targetClass);
 
 		// First try is the method in the target class.
+		// 事务属性存在于方法上，直接返回
 		TransactionAttribute txAttr = findTransactionAttribute(specificMethod);
 		if (txAttr != null) {
 			return txAttr;
 		}
 
 		// Second try is the transaction attribute on the target class.
+		// 事务属性不在方法上，使用类上的事务属性
 		txAttr = findTransactionAttribute(specificMethod.getDeclaringClass());
 		if (txAttr != null && ClassUtils.isUserLevelMethod(method)) {
 			return txAttr;
 		}
+
 
 		if (specificMethod != method) {
 			// Fallback is to look at the original method.
